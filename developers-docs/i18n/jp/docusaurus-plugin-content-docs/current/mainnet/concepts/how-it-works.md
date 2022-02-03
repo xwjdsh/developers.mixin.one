@@ -1,92 +1,93 @@
 ---
-title: How it Works
+title: 仕組み
 sidebar_position: 1
 ---
 
-# How it Works
+# 仕組み
 
-Mixin is a free, lightning-fast peer-to-peer cross-chain trading network for digital assets. Through the Domain gateway, Bitcoin, Ethereum, Monero, and a lot more popular public chain assets are brought into Mixin network. All the off-chain transactions are recorded in a public transparent Mixin distributed ledger and written to the blockchain when withdrawals happen.
+Mixinは、デジタルアセットのための無料かつ高速なP2Pクロスチェーン取引ネットワークです。ドメインゲートウェイを通じて、Bitcoin、Ethereum、Monero、その他多くのパブリックチェーンアセットがMixinネットワークに持ち込まれます。すべてのオフチェーントランザクションは公開されたMixin分散型台帳に記録され、引き出しが行われる際にブロックチェーンに書き込まれます。
+
 
 ![How it Works](./how-it-works.svg)
 
-### Distributed Ledger
+### 分散型台帳
 
-Mixin's distributed ledger is an open and transparent decentralized ledger, which is collectively booked and maintained by 35 mainnet nodes. All deposits, withdrawals, and transfers are recorded on this decentralized distributed ledger, and each record contains asset type (such as Bitcoin, Ethereum, etc.), transfer amount, and other information.
+Mixinの分散型台帳はオープンで透明性が高く、35のメインネットノードによって一括して記帳・管理されています。すべての入出金や送金はこの分散型台帳に記録され、それぞれの記録には資産の種類（ビットコイン、イーサリアムなど）、送金額などの情報が含まれています。
 
-- Nodes
+- ノード
  
-  Each mainnet node needs to pledge 11,000 XIN (2% of the circulation) to participate in bookkeeping. If it is identified as an attacker, e.g. intentionally broadcasting obvious double-spending transactions, the collateral will be confiscated into the mining pool.
+　各メインネットノードは、帳簿管理に参加するために11,000XIN（流通量の2％）を担保に入れる必要があります。明らかな二重支出の取引を意図的に広めるなど、攻撃者として特定された場合、その担保はマイニングプールに没収されます。
 
-  Mixin utilizes Intel SGX as the implementation of TEE to further improve security. All mainnet nodes must run in a trusted execution environment to ensure that the "running code" of the mainnet node is indeed "the code it claims to be running". Nobody can change the running code in the trusted execution environment without being noticed.
+　Mixinは、TEEの実装にIntel SGXを採用し、さらなるセキュリティの向上を図っています。すべてのメインネットノードは、メインネットノードの「実行中のコード」が真に「実行中と主張するコード」であることを保証するために、信頼できる実行環境で実行されなければなりません。信頼された実行環境では、誰にも気づかれずに実行中のコードを変更することはできません。
 
-  SPV light nodes supervise the main network nodes to prevent evil. Any user who pledges an integer multiple of 0.1 XIN can participate. By recording their UTXO changes and the topology order of the nodes, they can detect whether the nodes are evil.
-
+　SPVライトノードは、メインネットワークノードを監視し、不正を防止します。0.1 XIN単位のXINを担保に入れたユーザーであれば、誰でも参加可能です。自身のUTXO変化とノードのトポロジー順序を記録することで、ノードが不正を働いているかを検出することができます。
+ 
   ![Nodes](./how-it-works-nodes.svg)
 
 - DAG
 
-  Mixin uses DAG as the underlying data structure model. Unlike other public DAG chains (such as IOTA, Bytaball, etc.), Mixin does not have a central authority node, and data does not need to wait for the final confirmation from the central authority node. By limiting the time of referencing data and other mechanisms, asynchronous and efficient operations can be achieved, and the correctness of consensus results is ensured through Asynchronous Byzantine Algorithm. To put it simply, each node of Mixin is a chain with complete data, even though the order of the data may be different, the same result can be derived in the end.
+　Mixinは、データ構造の基本モデルとしてDAGを使用しています。他のパブリックDAGチェーン（IOTA、Bytaballなど）とは異なり、Mixinは中央権威ノードを持たず、データは中央権威ノードからの最終確認を待つ必要がありません。データの参照時間を制限するなどの仕組みにより、非同期で効率的な運用を実現し、Asynchronous Byzantine Algorithmにより合意結果の正しさを保証しています。簡潔に言えば、Mixinの各ノードは完全なデータを持ったチェーンであり、データの順番が違っても最終的に同じ結果を導き出すことが可能です。
  
-- Privacy
+- プライバシー
 
-  UTXO transaction privacy is strengthened through CryptoNote technology. Only both parties know the transaction, and mainnet nodes cannot know the parties to the transaction, and it is impossible to get the identities of parties to the transaction based on the transaction itself.
+　UTXOトランザクションプライバシーは、CryptoNoteテクノロジーによって強化されています。取引の内容を知っているのは両当事者だけで、メインネットノードは取引の当事者を知ることができず、取引そのものから取引当事者の身元を把握することは不可能です。
 
-  **Note that Mixin does not have a currency issuance function and will not generate assets out of thin air. Mainnet tokens have always been ERC-20 tokens.**
+  **なお、Mixinには通貨発行機能はなく、無から資産を生み出すことはありません。メインネットトークンは常にERC-20トークンです。**
 
-### Asset Management
+### アセットマネジメント
 
-- Domain Gateway
+- ドメインゲートウェイ
 
-  The Mixin Domain plays an important role as a gateway in Mixin Network, managing the deposits and withdrawals of on-chain assets. Unlike mainnet nodes that do not require permission, a Domain gateway needs to pledge a large amount of XIN, and only be able to join when the unanimous consent of all nodes is granted. As the amount of assets increases, there will be multiple domains to decentralize the management of assets. The existing Domain is managed by the Mixin team with 50,000 XIN pledged(referred to as "The Domain" in the following).
+　Mixinドメインは、Mixin Networkのゲートウェイとして、オンチェーンアセットの入出金を管理する重要な役割を担っています。許可を必要としないメインネットノードへの参加とは異なり、ドメインのゲートウェイは多額のXINを担保に入れる必要があるほか、全ノードの同意が得られた場合にのみ参加することができます。アセット量の増加に伴い、アセット管理を分散化するため、複数のドメインが存在することになります。現在のドメインは、Mixinチームが5万XINをプレッジして管理しています（以下、「ドメイン」と表記）。
 
-  The Domain does not have the complete private key of an on-chain asset (such as the Bitcoin private key). The private key is kept by nodes and the Domain through key sharding technology. Key shards have multiple backups, so the key will not be lost even some of the backups are lost or leaked. When the user withdraws, mainnet nodes and the Domain separately sign the transaction through (t-n) threshold signature technology, and finally merge everything into a complete signature and send the transaction.
+　ドメインは、オンチェーンアセットの完全な秘密鍵（ビットコインの秘密鍵など）を持っているわけではありません。秘密鍵はキーシャーディング技術によってノードとドメインが保管します。シャードキーには複数のバックアップがあり、一部のバックアップが失われたり漏洩したりしても、鍵が失われることはありません。ユーザーが出金する際には、メインネットノードとドメインがそれぞれ(t-n)閾値署名技術により署名し、最後にすべてをマージして完全な署名にすることで送金を行います。
 
-- Mainnet Cold Wallet
+- メインネットコールドウォレット
 
-  When the assets managed by the Domain gateway significantly exceed the value of its collateral, the assets of the Domain will be forcibly transferred to the cold wallet address jointly managed by 35 nodes.
+ドメインゲートウェイが管理する資産が担保価値を大幅に超えた場合、ドメインの資産は35ノードが共同管理するコールドウォレットアドレスに強制的に移管されます。
 
 
-### Transaction Bookkeeping
+### トランザクションの記録
 
-Once the assets are in the Mixin network, you can immediately enjoy the experience of free and real-time transactions. For the original chain (such as the Bitcoin network), the transactions are off-chain, but they are recorded in the decentralized ledger of Mixin, open, transparent, and irreversible.
+　アセットがMixinネットワーク内に移されると、すぐに手数料無料でリアルタイムな取引を行うことが可能になります。オリジナルのチェーン（ビットコインネットワークなど）では、取引はオフチェーンですが、Mixinの分散型台帳に記録され、オープンで透明性が高く、不可逆的なものとなります。
 
-- Deposit
+- 入金
 
-  Each user generates a unique deposit address (or distinguished by Tag/Memo), but the private key of the address is managed by the Domain and collected on demand, and the collected assets are jointly managed by mainnet nodes and the Domain.
+　各ユーザーには固有の入金アドレスを生成（またはタグ/メモで区別）されますが、秘密鍵はドメインが管理し、必要に応じて集められます。また集められた資産はメインネットノードとドメインが共同管理します。
 
-  When the Domain detects a user's deposit and the deposit has reached the required confirmations, it will initiate a transaction containing the user's deposit information to the nodes. After the nodes confirm the transaction, the user will own a new unspent UTXO (asset balance increase) and the transaction will also be recorded in the distributed ledger.
+　ドメインがユーザーの入金を検知し、入金が確認回数に達すると、ユーザーの入金情報を含むトランザクションをノードに開始します。そしてノードがトランザクションを承認すると、ユーザーは新たに未使用のUTXOを所有し（資産残高が増加し）、そのトランザクションも分散台帳に記録されます。
 
-- Transfer
+- 送金
 
-  When a user transfers, a multi-signature transaction will be generated through the 6-digit password + PIN node private key seed and sent to the mainnet nodes. The transaction will reference the historical transactions of the user's node and other nodes. The mainnet nodes will verify the user’s signature, check if there is enough unspent UTXO and other information, and the transaction will be written into the distributed ledger after more than 2/3 + 1 nodes have verified it.
+　ユーザーが送金を行うと、6桁のパスワード＋PINノード秘密鍵のシードを通じてマルチシグネチャトランザクションが生成され、メインネットノードに送信されます。このトランザクションは、ユーザーのノードと他のノードの過去のトランザクションを参照します。メインネットノードによってユーザーの署名の検証、未使用のUTXOが十分にあるかなどが確認され、さらに3分の2プラス1以上のノードが承認した場合にトランザクションは分散台帳に書き込まれます。
 
   ![Transaction](./full-node-transaction.png)
 
-- withdrawal
+- 出金
 
-  When a user initiates a withdrawal, the user needs to add a withdrawal address. The process is similar to the transfer process and will be written into the distributed ledger. When the Domain detected the transaction and signature of the mainnet node withdrawal, it will automatically arrange the withdrawal after the transaction and signature are verified. (No manual review).
+　ユーザーが出金を開始する際には、出金先のアドレスを追加する必要があります。この処理は送金処理と同様であり、分散台帳に書き込まれることになります。ドメインはメインネットノードの出金の取引と署名を検出すると、取引と署名が確認された後に自動的に出金を手配します。(手動での審査はありません)。
 
-  If the withdrawal is delayed, besides wrong address, another reason could be that the withdrawal transaction may not be sent due to the Domain failing to synchronize node data (you can subscribe to bot 7000101498 and will receive a failure alarm), or that the assets of the co-managed address are not enough so the collection of temporary assets is triggered, in this case, all it takes is to wait a moment or two.
+　出金が遅れた場合、アドレスを間違えている可能性以外に、ドメインがノードデータの同期に失敗して出金トランザクションが送信されていない可能性があります。（ID:7000101498のボットに登録すれば、失敗警告を受信できます）また、共同管理アドレスの資産が十分ではなく、一時資産の収集がトリガされている場合もありますが、この場合は数秒待てば解決します。
 
 ### FAQ
 
-- What is the relationship between Mixin, Mixin Network, and Mixin Messenger?
+- Mixin, Mixin Network, Mixin Messengerの関係は？
   
-  Mixin is short for Mixin Network, and Mixin Messenger is the first open-source Dapp on Mixin Network. Due to historical reasons, Mixin was considered Mixin Messenger for a long time.
+　MixinはMixin Networkの略で、Mixin MessengerはMixin Networkの最初のオープンソースDappです。歴史的な理由により、Mixinは長い間Mixin Messengerとされていました。
 
-- Why does Mixin only allow login via phone number?
+- なぜMixinは電話番号でしかログインできないのですか？
 
-  Mixin Messenger is a Dapp product that only allows login via phone numbers, but other Mixin Network-based products can be logged in by email or Apple Id, etc., it depends on the products themselves, such as [Poolin Wallet](http://poolin.fi).  
+　Mixin Messengerは電話番号でしかログインできないDappプロダクトですが、他のMixin NetworkベースのプロダクトはメールやApple IDなどでもログイン可能で、プロダクトによって異なります。例えば、[Poolin Wallet](http://poolin.fi)などがあります。
 
-- Why aren't airdrops supported? Why can't I get the balance of the BTC deposit address in my wallet with a blockchain browser?
+- なぜエアドロップはサポートされていないのですか？また、ブロックチェーンブラウザでウォレットのBTC入金アドレスの残高が取得できないのはなぜですか？
 
-  The deposit and withdrawal of Mixin do not use the same address. After the user deposits, the assets will be transferred to the address jointly managed by the Domain gateway and the nodes. More than 2/3 + 1 nodes need to verify and sign before withdrawing from the co-managed address to a target address. Therefore all deposit addresses are empty, and the balance cannot be checked and airdrops based on the balance cannot be accepted.
+　Mixinの入金と出金は同じアドレスを使用しません。ユーザが入金した後、ドメインゲートウェイとノードが共同で管理するアドレスに資産が転送されます。そして共同管理されたアドレスから目的のアドレスに出金する際には、3分の2+1以上のノードが確認と署名を行う必要があります。そのため、すべての入金先アドレスが空となり、残高の確認できないため、その残高に基づくエアドロップの受付ができないのです。
   
-- Why aren't the BTC withdrawal addresses managed by the Domain multi-signature addresses?
+- BTCの出金アドレスは、なぜドメインのマルチシグネチャアドレスで管理されていないのでしょうか？
 
-  Because Bitcoin multi-signature can only support more than a dozen people and cannot support 35 nodes to do multi-signature. Even though Mixin's withdrawal address is an ordinary address, the private key is based on cryptographic key sharding and (t, n) threshold signatures, so the result is equally safe and reliable.
+　それは、ビットコインのマルチシグネチャは十数人にしか対応できず、35ノードでによるマルチシグネチャの実行が難しいためです。Mixinの出金アドレスは普通のアドレスでも、秘密鍵はキーシャーディングと（t, n）閾値署名技術に基づいているので、結果的に同じように安全で信頼できるものになります。
 
-- Where is the Mixin blockchain browser?
+- Mixinブロックチェーンブラウザはどこにありますか？
 
   Blockchair, third party, https://blockchair.com/mixin
 
